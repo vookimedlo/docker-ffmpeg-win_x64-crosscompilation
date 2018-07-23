@@ -5,6 +5,7 @@ RUN mkdir /root/ffmpeg
 
 RUN echo '#!/bin/bash\n\
 tstamp=`date +%s`\n\
+extraargs=""\
 ffmpeg_git_checkout_version=master\n\
 USAGE="--ffmpeg-git-checkout-version=[master] a particular version of FFmpeg, ex: n4.0 or a specific git hash\n\
 --ivybridge=y ivybridge optimizations"\n\
@@ -18,7 +19,7 @@ while true; do\n\
     -h | --help ) echo "$USAGE\n\
        "; exit 0 ;;\n\
     --ffmpeg-git-checkout-version=* ) ffmpeg_git_checkout_version="${1#*=}"; shift ;;\n\
-    --ivybridge=* ) ivybridge="${1#*=}"; shift ;;\n\
+    --ivybridge=* ) ivybridge="${1#*=}"; extraargs="--build-amd-amf=n"; shift ;;\n\
     -- ) shift; break ;;\n\
     -* ) echo "Error, unknown option: $1."; exit 1 ;;\n\
     * ) break ;;\n\
@@ -31,7 +32,7 @@ cd /root/ffmpeg\n\
 git clone https://github.com/vookimedlo/ffmpeg-windows-build-helpers.git\n\
 cd /root/ffmpeg/ffmpeg-windows-build-helpers\n\
 [ $ivybridge = "y" ] && git checkout ivybridge && git pull\n\
-./cross_compile_ffmpeg.sh --ffmpeg-git-checkout-version=${ffmpeg_git_checkout_version} --build-amd-amf=n --disable-nonfree=n --compiler-flavors=win64 2>&1 | tee -a build-log\n\
+./cross_compile_ffmpeg.sh --ffmpeg-git-checkout-version=${ffmpeg_git_checkout_version} --disable-nonfree=n --compiler-flavors=win64 ${extraargs} 2>&1 | tee -a build-log\n\
 \n\
 cd /root/ffmpeg/ffmpeg-windows-build-helpers\n\
 [ -e /root/ffmpeg-${ffmpeg_git_checkout_version}-logs-${tstamp}.7z ] && rm /root/ffmpeg-${ffmpeg_git_checkout_version}-logs-${tstamp}.7z\n\
