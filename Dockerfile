@@ -31,7 +31,7 @@ cd /root/ffmpeg\n\
 git clone https://github.com/vookimedlo/ffmpeg-windows-build-helpers.git\n\
 cd /root/ffmpeg/ffmpeg-windows-build-helpers\n\
 [ $ivybridge = "y" ] && git checkout ivybridge && git pull\n\
-./cross_compile_ffmpeg.sh --ffmpeg-git-checkout-version=${ffmpeg_git_checkout_version} --disable-nonfree=n --compiler-flavors=win64 2>&1 | tee -a build-log\n\
+./cross_compile_ffmpeg.sh --ffmpeg-git-checkout-version=${ffmpeg_git_checkout_version} --build-amd-amf=n --disable-nonfree=n --compiler-flavors=win64 2>&1 | tee -a build-log\n\
 \n\
 cd /root/ffmpeg/ffmpeg-windows-build-helpers\n\
 [ -e /root/ffmpeg-${ffmpeg_git_checkout_version}-logs-${tstamp}.7z ] && rm /root/ffmpeg-${ffmpeg_git_checkout_version}-logs-${tstamp}.7z\n\
